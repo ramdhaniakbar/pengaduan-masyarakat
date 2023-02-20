@@ -19,7 +19,7 @@ class CreateComplaintsTable extends Migration
             $table->longText('content_report');
             $table->string('image');
             $table->date('complaint_date');
-            $table->enum('status', ['pending', 'process', 'completed'])->default('pending');
+            $table->enum('status', ['pending', 'rejected', 'completed'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
         });

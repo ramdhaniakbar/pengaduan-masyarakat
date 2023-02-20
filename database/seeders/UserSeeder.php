@@ -33,8 +33,16 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id' => 1,
-                'name' => 'Muhamad Ramdhani Akbar',
+                'name' => 'Ramdhani Akbar',
                 'username' => 'ramdhaniakbar',
+                'password' => bcrypt('123456'),
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'role_id' => 1,
+                'name' => 'Anggana Putra',
+                'username' => 'angganaputra',
                 'password' => bcrypt('123456'),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),

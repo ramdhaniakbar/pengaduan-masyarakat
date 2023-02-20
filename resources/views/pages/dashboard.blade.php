@@ -36,7 +36,7 @@
                      <td>{{ $complaint->complaint_date }}</td>
                      <td>
                         <span
-                           class="{{ $complaint->status == 'pending' ? 'text-capitalize badge text-bg-danger' : ($complaint->status == 'process' ? 'text-capitalize badge text-bg-primary' : 'text-capitalize badge text-bg-success') }}">{{
+                           class="{{ $complaint->status == 'pending' ? 'text-capitalize badge text-bg-secondary' : ($complaint->status == 'process' ? 'text-capitalize badge text-bg-primary' : 'text-capitalize badge text-bg-success') }}">{{
                            $complaint->status }}
                         </span>
                      </td>
