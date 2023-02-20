@@ -16,7 +16,6 @@ class CreateComplaintsTable extends Migration
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->index('fk_complaints_to_users');
-            $table->char('nik', 16)->unique()->nullable();
             $table->longText('content_report');
             $table->string('image');
             $table->date('complaint_date');

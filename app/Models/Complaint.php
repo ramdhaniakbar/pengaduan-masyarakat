@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Complaint extends Model
@@ -20,10 +21,14 @@ class Complaint extends Model
 
     protected $fillable = [
         'user_id',
-        'nik',
         'content_report',
         'image',
         'complaint_date',
         'status',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+    }
 }

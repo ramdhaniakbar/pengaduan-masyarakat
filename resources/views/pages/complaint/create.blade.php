@@ -10,22 +10,19 @@
             <div class="card-header">Buat Pengaduan</div>
 
             <div class="card-body">
-               @if (session('status'))
-               <div class="alert alert-success" role="alert">
-                  {{ session('status') }}
-               </div>
-               @endif
+
                <form method="POST" action="{{ route('complaint.store') }}" enctype="multipart/form-data">
                   @csrf
 
                   <div class="form-group row justify-content-center my-3">
-                     <label for="nik" class="col-md-4 col-form-label text-md-right">NIK</label>
+                     <label for="content_report" class="col-md-4 col-form-label text-md-right">Isi Laporan</label>
 
                      <div class="col-md-6">
-                        <input id="nik" type="text" class="form-control @error('nik') is-invalid @enderror" name="nik"
-                           value="{{ old('nik') }}" autocomplete="nik" autofocus>
+                        <textarea id="content_report" type="text"
+                           class="form-control @error('content_report') is-invalid @enderror" name="content_report"
+                           id="" cols="30" rows="8" autocomplete="content_report"></textarea>
 
-                        @error('nik')
+                        @error('content_report')
                         <span class="invalid-feedback" role="alert">
                            <strong>{{ $message }}</strong>
                         </span>
@@ -34,14 +31,13 @@
                   </div>
 
                   <div class="form-group row justify-content-center my-3">
-                     <label for="isi_laporan" class="col-md-4 col-form-label text-md-right">Isi Laporan</label>
+                     <label for="image" class="col-md-4 col-form-label text-md-right">Bukti Foto</label>
 
                      <div class="col-md-6">
-                        <textarea id="isi_laporan" type="text"
-                           class="form-control @error('isi_laporan') is-invalid @enderror" name="isi_laporan" id=""
-                           cols="30" rows="8" autocomplete="isi_laporan"></textarea>
+                        <input id="image" type="file" class="form-control @error('image') is-invalid @enderror"
+                           name="image" autocomplete="image">
 
-                        @error('isi_laporan')
+                        @error('image')
                         <span class="invalid-feedback" role="alert">
                            <strong>{{ $message }}</strong>
                         </span>
@@ -50,29 +46,14 @@
                   </div>
 
                   <div class="form-group row justify-content-center my-3">
-                     <label for="foto" class="col-md-4 col-form-label text-md-right">Bukti Foto</label>
+                     <label for="complaint_date" class="col-md-4 col-form-label text-md-right">Tanggal Pengaduan</label>
 
                      <div class="col-md-6">
-                        <input id="foto" type="file" class="form-control @error('foto') is-invalid @enderror"
-                           name="foto" autocomplete="foto">
+                        <input id="complaint_date" type="date"
+                           class="form-control @error('complaint_date') is-invalid @enderror" name="complaint_date"
+                           autocomplete="complaint_date">
 
-                        @error('foto')
-                        <span class="invalid-feedback" role="alert">
-                           <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                     </div>
-                  </div>
-
-                  <div class="form-group row justify-content-center my-3">
-                     <label for="tgl_pengaduan" class="col-md-4 col-form-label text-md-right">Tanggal Pengaduan</label>
-
-                     <div class="col-md-6">
-                        <input id="tgl_pengaduan" type="date"
-                           class="form-control @error('tgl_pengaduan') is-invalid @enderror" name="tgl_pengaduan"
-                           autocomplete="tgl_pengaduan">
-
-                        @error('tgl_pengaduan')
+                        @error('complaint_date')
                         <span class="invalid-feedback" role="alert">
                            <strong>{{ $message }}</strong>
                         </span>
