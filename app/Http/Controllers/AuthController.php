@@ -52,17 +52,28 @@ class AuthController extends Controller
         // check username
         $user = User::where('username', $fields['username'])->first();
 
-        // check password
+        // check user & password
         if (!$user || !Hash::check($fields['password'], $user->password)) {
             return back()->with('error', 'Login failed!');
         }
 
+        // check roles
+        if ($user && $user->role_id == 1) {
+            $user->remember_token = $user->createToken('auth_token')->plainTextToken;
+            $user->save();
+            
+            Auth::login($user);
+
+            return redirect()->route('dashboard')->with('status', 'You are logged now');
+        }
+
         $user->remember_token = $user->createToken('auth_token')->plainTextToken;
         $user->save();
-
+            
         Auth::login($user);
 
-        return redirect()->route('dashboard')->with('status', 'You are logged now');
+        return redirect()->route('backsite.dashboard')->with('status', 'You are logged now');
+
     }
 
     public function logout(Request $request)

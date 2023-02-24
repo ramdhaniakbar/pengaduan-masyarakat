@@ -18,7 +18,7 @@
                   <p class="fs-4 p-0">{{ $complaint->content_report }}</p>
                   <div class="ms-5">
                      <span
-                        class="{{ $complaint->status == 'pending' ? 'text-capitalize badge text-bg-danger' : ($complaint->status == 'process' ? 'text-capitalize badge text-bg-primary' : 'text-capitalize badge text-bg-success') }}"
+                        class="{{ $complaint->status == 'pending' ? 'text-capitalize badge text-bg-secondary' : ($complaint->status == 'rejected' ? 'text-capitalize badge text-bg-danger' : 'text-capitalize badge text-bg-success') }}"
                         style="font-size: 14px">{{
                         $complaint->status }}
                      </span>
@@ -30,11 +30,13 @@
             <div class="card-footer text-muted">
                <div class="d-flex justify-content-between align-items-center">
                   <div>
-                     <a href="{{ route('dashboard') }}" class="btn btn-light btn-sm border">
+                     <a href="{{ auth()->user()->role_id == 1 ? route('dashboard') : route('backsite.dashboard') }}"
+                        class="btn btn-light btn-sm border">
                         <i class="bi bi-arrow-left"></i> Kembali
                      </a>
                   </div>
                   <div>
+                     @if (auth()->user()->role_id == 1)
                      <a href="{{ route('complaint.edit', $complaint->id) }}" class="btn btn-warning btn-sm border my-2">
                         <i class="bi bi-pencil-square"></i>
                      </a>
@@ -42,6 +44,7 @@
                         class="btn btn-danger btn-sm border my-2">
                         <i class="bi bi-x-circle"></i>
                      </a>
+                     @endif
                   </div>
                </div>
             </div>

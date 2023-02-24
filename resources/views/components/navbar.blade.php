@@ -47,7 +47,8 @@
                </a>
 
                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                  <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
+                  <a href="{{ auth()->user()->role_id == 1 ? route('dashboard') : route('backsite.dashboard') }}"
+                     class="dropdown-item">Dashboard</a>
                   <form action="{{ route('logout') }}" method="POST">
                      @csrf
                      <button type="submit" class="dropdown-item" role="button">

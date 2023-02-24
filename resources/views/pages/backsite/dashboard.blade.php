@@ -17,8 +17,7 @@
                </div>
                @endif
                <div class="d-flex justify-content-between mb-3">
-                  <h3>Pengaduan Kamu</h3>
-                  <a href="{{ route('complaint.create') }}" class="btn btn-primary">Buat Pengaduan</a>
+                  <h3>Pengaduan Masyarakat</h3>
                </div>
                @if (count($complaints) > 0)
                <table class="table table-striped table-bordered border">
@@ -44,22 +43,10 @@
                         <a href="{{ route('complaint.show', $complaint->id) }}" class="btn btn-light btn-sm border">
                            <i class="bi bi-eye"></i>
                         </a>
-                        <a href="{{ route('complaint.edit', $complaint->id) }}" class="btn btn-warning btn-sm">
-                           <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <form action="{{ route('complaint.destroy', $complaint->id) }}" method="POST"
-                           class="d-inline-block">
-                           @csrf
-                           @method('DELETE')
-                           <button type="submit" class="btn btn-danger btn-sm">
-                              <i class="bi bi-x-circle"></i>
-                           </button>
-                        </form>
                      </td>
                   </tr>
                   @endforeach
                </table>
-               {{ $complaints->links() }}
                @else
                <p class="text-center">Kamu belum pernah buat pengaduan</p>
                @endif

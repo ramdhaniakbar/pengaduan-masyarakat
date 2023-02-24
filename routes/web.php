@@ -26,8 +26,15 @@ Route::group(['middleware' => ['guest']], function () {
 });
 
 // Authenticated Routes
-Route::group(['middleware' => ['auth:sanctum']], function () {
-   Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->name('dashboard');
-   Route::post('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
-   Route::resource('complaint', 'App\Http\Controllers\ComplaintController');
+Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+    
+    Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->name('dashboard');
+    Route::resource('complaint', 'App\Http\Controllers\ComplaintController');
+
+    Route::group(['prefix' => 'backsite', 'as' => 'backsite.', 'middleware' => ['is_admin']], function () {
+        Route::get('/dashboard', 'App\Http\Controllers\DashboardBacksiteController@index')->name('dashboard');
+        Route::get('/create_response', 'App\Http\Controllers\DashboardBacksiteController@createResponse')->name('create_response');
+    });
+   
+    Route::post('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
 });
