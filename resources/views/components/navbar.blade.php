@@ -12,13 +12,8 @@
          <!-- Left Side Of Navbar -->
          <ul class="navbar-nav me-auto">
             <li class="nav-item">
-               <a class="nav-link active" aria-current="page" href="{{ route('index') }}">Home</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" href="#">Services</a>
+               <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" aria-current="page"
+                  href="{{ route('index') }}">Home</a>
             </li>
          </ul>
 
@@ -28,13 +23,14 @@
             @guest
             @if (Route::has('login'))
             <li class="nav-item">
-               <a class="nav-link" href="{{ route('login') }}">Login</a>
+               <a class="nav-link {{ request()->is('login') ? 'active' : '' }}" href="{{ route('login') }}">Login</a>
             </li>
             @endif
 
             @if (Route::has('register'))
             <li class="nav-item">
-               <a class="nav-link" href="{{ route('register') }}">Register</a>
+               <a class="nav-link {{ request()->is('register') ? 'active' : '' }}"
+                  href="{{ route('register') }}">Register</a>
             </li>
             @endif
             @endguest

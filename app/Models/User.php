@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Complaint', 'user_id');
     }
+
+    public function response(): HasMany
+    {
+        return $this->hasMany('App\Models\Response', 'user_id');
+    }
 }

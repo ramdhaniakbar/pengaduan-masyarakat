@@ -31,7 +31,8 @@
                   </tr>
                   @foreach ($complaints as $complaint)
                   <tr>
-                     <td><img style="width: 100px" src="/storage/images/{{ $complaint->image }}" alt=""></td>
+                     <td><img style="width: 100px; height: 65px;" src="/storage/images/{{ $complaint->image }}" alt="">
+                     </td>
                      <td>{{ Str::limit($complaint->content_report, 35, '...') }}</td>
                      <td>{{ $complaint->complaint_date }}</td>
                      <td>
@@ -59,7 +60,9 @@
                   </tr>
                   @endforeach
                </table>
-               {{ $complaints->links() }}
+               <div class="d-flex justify-content-end">
+                  {{ $complaints->links() }}
+               </div>
                @else
                <p class="text-center">Kamu belum pernah buat pengaduan</p>
                @endif

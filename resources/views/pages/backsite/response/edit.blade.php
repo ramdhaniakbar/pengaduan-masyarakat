@@ -1,25 +1,27 @@
 @extends('layouts.app')
 
-@section('title', 'Buat Tanggapan')
+@section('title', 'Edit Tanggapan')
 
 @section('content')
 <div class="container">
    <div class="row justify-content-center">
       <div class="col-md-8">
          <div class="card">
-            <div class="card-header">Buat Tanggapan</div>
+            <div class="card-header">Edit Tanggapan</div>
 
             <div class="card-body">
 
-               <form method="POST">
+               <form method="POST" action="{{ route('backsite.update_response', $response->id) }}">
                   @csrf
+                  @method('PUT')
 
                   <div class="form-group row justify-content-center my-3">
                      <label for="response" class="col-md-4 col-form-label text-md-right">Tanggapan</label>
 
                      <div class="col-md-6">
                         <textarea id="response" type="text" class="form-control @error('response') is-invalid @enderror"
-                           name="response" id="" cols="30" rows="8" autocomplete="response"></textarea>
+                           name="response" id="" cols="30" rows="8"
+                           autocomplete="response">{{ $response->response }}</textarea>
 
                         @error('response')
                         <span class="invalid-feedback" role="alert">
@@ -35,7 +37,7 @@
                      <div class="col-md-6">
                         <input id="response_date" type="date"
                            class="form-control @error('response_date') is-invalid @enderror" name="response_date"
-                           autocomplete="response_date">
+                           autocomplete="response_date" value="{{ $response->response_date }}">
 
                         @error('response_date')
                         <span class="invalid-feedback" role="alert">

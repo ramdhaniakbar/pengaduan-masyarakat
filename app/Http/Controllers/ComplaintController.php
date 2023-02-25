@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Complaint;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -48,7 +49,7 @@ class ComplaintController extends Controller
     {
         $fields = $request->validate([
             'content_report' => ['required', 'string'],
-            'image' => ['required', 'image', 'max:1999', 'mimes:png,jpg'],
+            'image' => ['image', 'max:1999', 'mimes:png,jpg'],
             'complaint_date' => ['required', 'date'],
         ]);
 
@@ -63,7 +64,9 @@ class ComplaintController extends Controller
             $fileNameToStore = $filename . '_' . time() . '.' . $extension;
             // store to storage
             $path = $request->file('image')->storeAs('public/images', $fileNameToStore); 
-        } 
+        } else {
+            $fileNameToStore = 'noimage.jpg';
+        }
 
         Complaint::create([
             'user_id' => auth()->user()->id,
@@ -84,7 +87,14 @@ class ComplaintController extends Controller
     public function show($id)
     {
         $complaint = Complaint::find($id);
-        return view('pages.complaint.show', compact('complaint'));
+        
+        $user_complaint = User::find($complaint->user_id);
+        
+        $response = $complaint->response()->first();
+
+        $response ? $user_response = User::find($response->user_id) : $user_response = null;
+
+        return view('pages.complaint.show', compact(['complaint', 'response', 'user_complaint', 'user_response']));
     }
 
     /**
@@ -110,7 +120,7 @@ class ComplaintController extends Controller
     {
         $request->validate([
             'content_report' => ['required', 'string'],
-            'image' => ['required', 'image', 'max:1999', 'mimes:png,jpg'],
+            'image' => ['image', 'max:1999', 'mimes:png,jpg'],
             'complaint_date' => ['required', 'date'],
         ]);
 

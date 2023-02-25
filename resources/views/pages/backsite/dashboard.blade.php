@@ -30,7 +30,8 @@
                   </tr>
                   @foreach ($complaints as $complaint)
                   <tr>
-                     <td><img style="width: 100px" src="/storage/images/{{ $complaint->image }}" alt=""></td>
+                     <td><img style="width: 100px; height: 65px;" src="/storage/images/{{ $complaint->image }}" alt="">
+                     </td>
                      <td>{{ Str::limit($complaint->content_report, 35, '...') }}</td>
                      <td>{{ $complaint->complaint_date }}</td>
                      <td>
@@ -40,13 +41,39 @@
                         </span>
                      </td>
                      <td>
+                        @if ($complaint->status == 'rejected')
                         <a href="{{ route('complaint.show', $complaint->id) }}" class="btn btn-light btn-sm border">
                            <i class="bi bi-eye"></i>
                         </a>
+                        <a href="{{ route('backsite.unreject_status', $complaint->id) }}" class="btn btn-info btn-sm">
+                           <i class="bi bi-arrow-repeat"></i>
+                        </a>
+                        @elseif ($complaint->status == 'completed')
+                        <a href="{{ route('complaint.show', $complaint->id) }}" class="btn btn-light btn-sm border">
+                           <i class="bi bi-eye"></i>
+                        </a>
+                        <a href="{{ route('backsite.edit_response', $complaint->id) }}" class="btn btn-warning btn-sm">
+                           <i class="bi bi-pencil-square"></i>
+                        </a>
+                        @else
+                        <a href="{{ route('complaint.show', $complaint->id) }}" class="btn btn-light btn-sm border">
+                           <i class="bi bi-eye"></i>
+                        </a>
+                        <a href="{{ route('backsite.create_response', $complaint->id) }}"
+                           class="btn btn-primary btn-sm">
+                           <i class="bi bi-plus-circle"></i>
+                        </a>
+                        <a href="{{ route('backsite.reject_status', $complaint->id) }}" class="btn btn-danger btn-sm">
+                           <i class="bi bi-x-circle"></i>
+                        </a>
+                        @endif
                      </td>
                   </tr>
                   @endforeach
                </table>
+               <div class="d-flex justify-content-end">
+                  {{ $complaints->links() }}
+               </div>
                @else
                <p class="text-center">Kamu belum pernah buat pengaduan</p>
                @endif

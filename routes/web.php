@@ -33,7 +33,12 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::group(['prefix' => 'backsite', 'as' => 'backsite.', 'middleware' => ['is_admin']], function () {
         Route::get('/dashboard', 'App\Http\Controllers\DashboardBacksiteController@index')->name('dashboard');
-        Route::get('/create_response', 'App\Http\Controllers\DashboardBacksiteController@createResponse')->name('create_response');
+        Route::get('/create_response/{id}', 'App\Http\Controllers\DashboardBacksiteController@createResponse')->name('create_response');
+        Route::post('/store_response/{id}', 'App\Http\Controllers\DashboardBacksiteController@storeResponse')->name('store_response');
+        Route::get('/edit_response/{id}', 'App\Http\Controllers\DashboardBacksiteController@editResponse')->name('edit_response');
+        Route::put('/update_response/{id}', 'App\Http\Controllers\DashboardBacksiteController@updateResponse')->name('update_response');
+        Route::get('/reject_status/{id}', 'App\Http\Controllers\DashboardBacksiteController@rejectStatus')->name('reject_status');
+        Route::get('/unreject_status/{id}', 'App\Http\Controllers\DashboardBacksiteController@unrejectStatus')->name('unreject_status');
     });
    
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
