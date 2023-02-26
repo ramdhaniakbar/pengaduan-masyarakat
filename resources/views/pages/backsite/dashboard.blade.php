@@ -18,10 +18,13 @@
                @endif
                <div class="d-flex justify-content-between align-items-center mb-3">
                   <h3>Pengaduan Masyarakat</h3>
+                  @if (auth()->user()->role_id == 2)
                   <div>
                      <a href="{{ route('backsite.generate_pdf') }}" class="btn btn-danger btn-sm"><i
-                           class="bi bi-printer"></i> Generate PDF</a>
+                           class="bi bi-printer"></i> Generate
+                        PDF</a>
                   </div>
+                  @endif
                </div>
                @if (count($complaints) > 0)
                <table class="table table-striped table-bordered border">
