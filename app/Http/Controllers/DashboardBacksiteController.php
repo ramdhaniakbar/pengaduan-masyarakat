@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Complaint;
+use App\Models\User;
 use App\Models\Response;
+use App\Models\Complaint;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DashboardBacksiteController extends Controller
 {
@@ -94,5 +96,45 @@ class DashboardBacksiteController extends Controller
         Complaint::where('id', $complaint->id)->update(['status' => 'pending']);
 
         return redirect()->route('backsite.dashboard')->with('success', 'Status unrejected');
+    }
+
+    public function createUser()
+    {
+        return view('pages.backsite.user.create');
+    }
+
+    public function storeUser(Request $request)
+    {
+        $fields = $request->validate([
+            'name' => ['required', 'string'],
+            'username' => ['required', 'string', 'unique:users,username'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+
+        $user = User::create([
+            'role_id' => $request->role,
+            'name' => $fields['name'],
+            'username' => $fields['username'],
+            'password' => bcrypt($fields['password']),
+        ]);
+
+        $user->remember_token = $user->createToken('auth_token')->plainTextToken;
+        $user->save();
+
+        return redirect()->route('backsite.dashboard')->with('success', 'User created');
+    }
+
+    public function generatePDF()
+    {
+        $employee = auth()->user()->name;
+        $complaints = Complaint::latest()->get();
+        $data = [
+            'title' => 'Generate Laporan',
+            'employee' => $employee,
+            'complaints' => $complaints
+        ];
+
+        $pdf = Pdf::loadView('pages.backsite.pdf.generate-pdf', $data);
+        return $pdf->download(Str::random(20) . '.pdf');
     }
 }

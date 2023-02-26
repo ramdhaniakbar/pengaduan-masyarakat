@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class IsAdmin
+class CheckAdminOrPetugasRole
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,9 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || auth()->user()->role_id !== 2) {
-            return back()->with('error', 'You do not have access');
+        if ($request->user() && ($request->user()->role_id == 2 || $request->user()->role_id == 3)) {
+            return $next($request);
         }
-        return $next($request);
+        return back()->with('error', 'You do not have access');
     }
 }

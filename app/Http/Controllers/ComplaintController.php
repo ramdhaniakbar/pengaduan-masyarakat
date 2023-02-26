@@ -65,7 +65,7 @@ class ComplaintController extends Controller
             // store to storage
             $path = $request->file('image')->storeAs('public/images', $fileNameToStore); 
         } else {
-            $fileNameToStore = 'noimage.jpg';
+            $fileNameToStore = 'noimage.png';
         }
 
         Complaint::create([

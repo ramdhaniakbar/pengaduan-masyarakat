@@ -15,6 +15,13 @@
                <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" aria-current="page"
                   href="{{ route('index') }}">Home</a>
             </li>
+            @if (auth()->check() && auth()->user()->role_id == 2)
+            <li>
+               <a class="nav-link {{ request()->is('backsite/create_user') ? 'active' : '' }}"
+                  href="{{ route('backsite.create_user') }}">Create
+                  User</a>
+            </li>
+            @endif
          </ul>
 
          <!-- Right Side Of Navbar -->
