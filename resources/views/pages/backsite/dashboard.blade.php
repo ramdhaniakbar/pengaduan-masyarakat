@@ -5,7 +5,44 @@
 @section('content')
 <div class="container">
    <div class="row justify-content-center">
+      <div class="col-md-4">
+         <div class="card mb-3">
+            <div class="card-body">Total Pengaduan: {{ count($complaints) }}</div>
+         </div>
+         <a href="{{ route('backsite.status_pending.index') }}" class="text-decoration-none text-black">
+            <div class="card mb-3">
+               <div class="card-body">Status Pending: {{ $complaints_status['complaint_pending'] }}</div>
+            </div>
+         </a>
+         <a href="{{ route('backsite.status_completed.index') }}" class="text-decoration-none text-black">
+            <div class="card">
+               <div class="card-body">Status Completed: {{ $complaints_status['complaint_completed'] }}</div>
+            </div>
+         </a>
+      </div>
       <div class="col-md-8">
+         @if (auth()->user()->role_id == 2)
+         <div class="card mb-3">
+            <div class="card-header">Print Pengaduan</div>
+            <form action="{{ route('backsite.generate_pdf') }}" class="p-3">
+               <div class="mb-3">
+                  <label for="tanggal_1" class="form-label">Dari Tanggal</label>
+                  <input type="date" name="tanggal_1" class="form-control" id="tanggal_1"
+                     value="{{ old('tanggal_1') }}">
+               </div>
+               <div class="mb-3">
+                  <label for="tanggal_2" class="form-label">Sampai Tanggal</label>
+                  <input type="date" name="tanggal_2" class="form-control" id="tanggal_2"
+                     value="{{ old('tanggal_2') }}">
+               </div>
+               <div>
+                  <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-printer"></i>
+                     Generate
+                     PDF</button>
+               </div>
+            </form>
+         </div>
+         @endif
          <div class="card">
             <div class="card-header">Dashboard</div>
 
@@ -18,13 +55,6 @@
                @endif
                <div class="d-flex justify-content-between align-items-center mb-3">
                   <h3>Pengaduan Masyarakat</h3>
-                  @if (auth()->user()->role_id == 2)
-                  <div>
-                     <a href="{{ route('backsite.generate_pdf') }}" class="btn btn-danger btn-sm"><i
-                           class="bi bi-printer"></i> Generate
-                        PDF</a>
-                  </div>
-                  @endif
                </div>
                @if (count($complaints) > 0)
                <table class="table table-striped table-bordered border">

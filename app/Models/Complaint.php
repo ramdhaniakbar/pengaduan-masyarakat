@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Complaint extends Model
@@ -33,8 +34,8 @@ class Complaint extends Model
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 
-    public function response(): HasMany
+    public function response(): HasOne
     {
-        return $this->hasMany('App\Models\Response', 'complaint_id');
+        return $this->hasOne('App\Models\Response', 'complaint_id');
     }
 }

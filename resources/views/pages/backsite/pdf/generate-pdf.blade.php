@@ -15,6 +15,7 @@
          <tr>
             <th>No</th>
             <th>Isi Laporan</th>
+            <th>Isi Tanggapan</th>
             <th>Tanggal Pengaduan</th>
             <th>Status</th>
          </tr>
@@ -24,6 +25,7 @@
          <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $complaint->content_report }}</td>
+            <td>{{ $complaint->response->response ?? 'Belum ditanggapi' }}</td>
             <td>{{ $complaint->complaint_date }}</td>
             <td>{{ $complaint->status }}</td>
          </tr>

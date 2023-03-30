@@ -42,6 +42,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         Route::put('/update_response/{id}', 'App\Http\Controllers\DashboardBacksiteController@updateResponse')->name('update_response');
         Route::get('/reject_status/{id}', 'App\Http\Controllers\DashboardBacksiteController@rejectStatus')->name('reject_status');
         Route::get('/unreject_status/{id}', 'App\Http\Controllers\DashboardBacksiteController@unrejectStatus')->name('unreject_status');
+
+        Route::get('/status_pending', 'App\Http\Controllers\DashboardBacksiteController@statusPending')->name('status_pending.index');
+        Route::get('/status_completed', 'App\Http\Controllers\DashboardBacksiteController@statusCompleted')->name('status_completed.index');
     
 
         Route::group(['middleware' => 'is_admin'], function () {

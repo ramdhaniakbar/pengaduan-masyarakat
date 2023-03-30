@@ -14,7 +14,15 @@ class DashboardBacksiteController extends Controller
     public function index()
     {
         $complaints = Complaint::latest()->paginate(10);
-        return view('pages.backsite.dashboard', compact('complaints'));
+        $complaint_pending = Complaint::where('status', 'pending')->count();
+        $complaint_completed = Complaint::where('status', 'completed')->count();
+
+        $complaints_status = [
+            'complaint_pending' => $complaint_pending,
+            'complaint_completed' => $complaint_completed
+        ];
+
+        return view('pages.backsite.dashboard', compact('complaints', 'complaints_status'));
     }
 
     public function createResponse($id)
@@ -124,17 +132,46 @@ class DashboardBacksiteController extends Controller
         return redirect()->route('backsite.dashboard')->with('success', 'User created');
     }
 
-    public function generatePDF()
+    public function statusPending()
     {
-        $employee = auth()->user()->name;
-        $complaints = Complaint::latest()->get();
-        $data = [
-            'title' => 'Generate Laporan',
-            'employee' => $employee,
-            'complaints' => $complaints
-        ];
+        $complaints = Complaint::where('status', 'pending')->latest()->paginate(10);
+        return view('pages.backsite.response.pending.index', compact('complaints'));
+    }
 
-        $pdf = Pdf::loadView('pages.backsite.pdf.generate-pdf', $data);
-        return $pdf->download(Str::random(20) . '.pdf');
+    public function statusCompleted()
+    {
+        $complaints = Complaint::where('status', 'completed')->latest()->paginate(10);
+        return view('pages.backsite.response.completed.index', compact('complaints'));
+    }
+
+    public function generatePDF(Request $request)
+    {
+        if ($request['tanggal_1'] || $request['tanggal_2']) {
+            $complaints = Complaint::whereBetween('created_at', [$request['tanggal_1'], $request['tanggal_2']])->with('response')->latest()->get();
+
+            $employee = auth()->user()->name;
+
+            $data = [
+                'title' => 'Generate Laporan',
+                'employee' => $employee,
+                'complaints' => $complaints
+            ];
+
+            $pdf = Pdf::loadView('pages.backsite.pdf.generate-pdf', $data);
+            return $pdf->download(Str::random(20) . '.pdf');
+
+        } else {
+            $employee = auth()->user()->name;
+            $complaints = Complaint::with('response')->latest()->get();
+    
+            $data = [
+                'title' => 'Generate Laporan',
+                'employee' => $employee,
+                'complaints' => $complaints
+            ];
+    
+            $pdf = Pdf::loadView('pages.backsite.pdf.generate-pdf', $data);
+            return $pdf->download(Str::random(20) . '.pdf');
+        }
     }
 }
